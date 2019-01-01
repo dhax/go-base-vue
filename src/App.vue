@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawerRight" fixed right clipped app>
+    <v-navigation-drawer v-model="drawerRight" fixed right clipped app disable-resize-watcher>
       <v-list dense>
         <v-list-tile @click.stop="right = !right">
           <v-list-tile-action>
@@ -12,15 +12,23 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="blue-grey" dark fixed app clipped-right>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Toolbar</v-toolbar-title>
+
+    <v-toolbar dense color="primary" dark fixed app>
+      <v-toolbar-side-icon v-if="loggedIn" name="menu" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>
+        <router-link to="/">
+          <v-btn flat>GoBase</v-btn>
+        </router-link>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <Auth/>
+      <v-toolbar-items>
+        <AuthMenu/>
+      </v-toolbar-items>
 
-      <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"></v-toolbar-side-icon>
+      <v-toolbar-side-icon v-if="loggedIn" @click.stop="drawerRight = !drawerRight"></v-toolbar-side-icon>
     </v-toolbar>
+
     <v-navigation-drawer v-model="drawer" fixed app>
       <v-list dense>
         <v-list-tile @click.stop="left = !left">
@@ -32,26 +40,44 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+      <v-list v-if="hasRole('admin')" class="subheader">
+        <v-divider></v-divider>
+        <v-subheader>Admin Panel</v-subheader>
+        <v-list-tile to="/admin/accounts" name="accounts">
+          <v-list-tile-action>
+            <v-icon>security</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Accounts</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
     </v-navigation-drawer>
+
     <v-navigation-drawer v-model="left" temporary fixed></v-navigation-drawer>
     <v-content>
       <router-view/>
     </v-content>
     <v-navigation-drawer v-model="right" right temporary fixed></v-navigation-drawer>
-    <v-footer color="blue-grey" class="white--text" app>
-      <span>Vuetify</span>
+
+    <v-footer class="black--text pa-4" app>
+      <span>GoBase</span>
       <v-spacer></v-spacer>
-      <span>&copy; 2017</span>
+      <span>&copy; 2019</span>
     </v-footer>
+    <confirm ref="confirm"></confirm>
   </v-app>
 </template>
 
 <script>
-import Auth from '@/components/Auth'
+import AuthMenu from '@/components/AuthMenu'
+import confirm from '@/components/helper/confirmDialog'
+import { mapGetters } from 'vuex'
 
 export default {
-  components: {
-    Auth
+  components: { AuthMenu, confirm },
+  props: {
+    source: String
   },
   data: () => ({
     drawer: null,
@@ -59,8 +85,13 @@ export default {
     right: false,
     left: false
   }),
-  props: {
-    source: String
+
+  computed: {
+    ...mapGetters(['loggedIn', 'subject', 'hasRole'])
+  },
+
+  mounted() {
+    this.$root.$confirm = this.$refs.confirm.open
   }
 }
 </script>
