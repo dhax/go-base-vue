@@ -52,6 +52,18 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+      <v-list v-else>
+        <v-divider></v-divider>
+        <v-subheader>Menu</v-subheader>
+        <v-list-tile to="/login">
+          <v-list-tile-action>
+            <v-icon>account_box</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Login for Menu</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
     </v-navigation-drawer>
 
     <v-navigation-drawer v-model="left" temporary fixed></v-navigation-drawer>
