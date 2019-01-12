@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawerRight" fixed right clipped app disable-resize-watcher>
+    <v-navigation-drawer v-model="drawerRight" fixed right clipped app stateless>
       <v-list dense>
         <v-list-tile @click.stop="right = !right">
           <v-list-tile-action>
