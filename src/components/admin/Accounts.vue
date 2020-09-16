@@ -1,18 +1,43 @@
 <template>
   <v-container>
-    <v-snackbar v-model="snack" :timeout="3000" top :color="snackColor" class="text-capitalize">
+    <v-snackbar
+      v-model="snack"
+      :timeout="3000"
+      top
+      :color="snackColor"
+      class="text-capitalize"
+    >
       {{ snackText }}
-      <v-btn @click="snack = false" outline>
+      <v-btn
+        @click="snack = false"
+        outline
+      >
         <v-icon>close</v-icon>
       </v-btn>
     </v-snackbar>
 
-    <v-toolbar flat color="white" class="elevation-1">
+    <v-toolbar
+      flat
+      color="white"
+      class="elevation-1"
+    >
       <v-toolbar-title>Accounts</v-toolbar-title>
-      <v-divider class="mx-2" inset vertical></v-divider>
+      <v-divider
+        class="mx-2"
+        inset
+        vertical
+      ></v-divider>
       <v-spacer></v-spacer>
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-btn slot="activator" color="primary" dark class="mb-2">New Account</v-btn>
+      <v-dialog
+        v-model="dialog"
+        max-width="500px"
+      >
+        <v-btn
+          slot="activator"
+          color="primary"
+          dark
+          class="mb-2"
+        >New Account</v-btn>
         <v-card>
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
@@ -20,10 +45,26 @@
 
           <v-card-text>
             <v-container grid-list-md>
-              <v-form wrap ref="accountForm" v-model="valid">
-                <v-text-field v-model="editedAccount.name" label="Name" :rules="nameRules"></v-text-field>
-                <v-text-field v-model="editedAccount.email" label="Email" :rules="emailRules"></v-text-field>
-                <v-switch v-model="editedAccount.active" label="Active" color="primary"></v-switch>
+              <v-form
+                wrap
+                ref="accountForm"
+                v-model="valid"
+              >
+                <v-text-field
+                  v-model="editedAccount.name"
+                  label="Name"
+                  :rules="nameRules"
+                ></v-text-field>
+                <v-text-field
+                  v-model="editedAccount.email"
+                  label="Email"
+                  :rules="emailRules"
+                ></v-text-field>
+                <v-switch
+                  v-model="editedAccount.active"
+                  label="Active"
+                  color="primary"
+                ></v-switch>
                 <v-checkbox
                   multiple
                   v-model="editedAccount.roles"
@@ -45,7 +86,11 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn @click="close">Cancel</v-btn>
-            <v-btn color="primary" @click="save" :disabled="!valid">Save</v-btn>
+            <v-btn
+              color="primary"
+              @click="save"
+              :disabled="!valid"
+            >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -59,7 +104,10 @@
       :loading="loading"
       class="elevation-1"
     >
-      <template slot="items" slot-scope="props">
+      <template
+        slot="items"
+        slot-scope="props"
+      >
         <tr>
           <td class="columnIcon">
             <v-icon>{{props.item.active ? 'check_box':'check_box_outline_blank'}}</v-icon>
@@ -71,12 +119,22 @@
           <td>{{ props.item.email }}</td>
           <td>{{ props.item.last_login | formatDate }}</td>
           <td class="justify-center layout px-0">
-            <v-icon small class="mr-2" @click="editAccount(props.item)">edit</v-icon>
-            <v-icon small @click="deleteAccount(props.item)">delete</v-icon>
+            <v-icon
+              small
+              class="mr-2"
+              @click="editAccount(props.item)"
+            >edit</v-icon>
+            <v-icon
+              small
+              @click="deleteAccount(props.item)"
+            >delete</v-icon>
           </td>
         </tr>
       </template>
-      <template slot="expand" slot-scope="props">
+      <template
+        slot="expand"
+        slot-scope="props"
+      >
         <v-card flat>
           <v-card-text>Created: {{ props.item.created_at | formatDate }}</v-card-text>
           <v-card-text>Last Login: {{ props.item.last_login | formatDate }}</v-card-text>
@@ -147,7 +205,7 @@ export default {
         this.accounts = data.accounts
         this.totalAccounts = data.count
       },
-      depp: true
+      deep: true
       // immediate: true
     }
   },

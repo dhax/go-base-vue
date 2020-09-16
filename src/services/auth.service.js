@@ -11,7 +11,7 @@ class AuthenticationError extends Error {
 }
 
 const AuthService = {
-  requestEmailToken: async function(email) {
+  requestEmailToken: async function (email) {
     const requestData = {
       method: 'post',
       url: 'auth/login',
@@ -31,7 +31,7 @@ const AuthService = {
     }
   },
 
-  requestJWT: async function(token) {
+  requestJWT: async function (token) {
     const requestData = {
       method: 'post',
       url: 'auth/token',
@@ -56,7 +56,7 @@ const AuthService = {
     }
   },
 
-  refreshToken: async function() {
+  refreshToken: async function () {
     const requestData = {
       method: 'post',
       url: 'auth/refresh',
@@ -79,7 +79,7 @@ const AuthService = {
     }
   },
 
-  logout: async function() {
+  logout: async function () {
     try {
       const requestData = {
         method: 'post',
@@ -97,15 +97,6 @@ const AuthService = {
       ApiService.removeHeader()
       TokenService.removeToken()
       TokenService.removeRefreshToken()
-    }
-  },
-
-  getAccount: async function() {
-    try {
-      const response = await ApiService.getAccount()
-      return response.data
-    } catch (e) {
-      throw new AuthenticationError(e.response.status, e.response.data.error)
     }
   }
 }
